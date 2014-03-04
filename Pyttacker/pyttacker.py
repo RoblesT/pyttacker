@@ -4,9 +4,6 @@ from SimpleHTTPServer import SimpleHTTPRequestHandler
 from BaseHTTPServer import BaseHTTPRequestHandler
 from os import curdir, sep
 
-
-servername = ''
-
 class GetHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         try:
@@ -79,7 +76,7 @@ def server_process(source):
     content = source
     #Server Vars
     port=get_port()
-    content = content.replace("<SERVER_NAME>",servername)
+    content = content.replace("<SERVER_NAME>",'localhost')
     content = content.replace("<SERVER_PORT>",str(port))
     return content
 def test_xfs(url):
@@ -101,30 +98,6 @@ def get_port():
     else:
         port = 8000
     return port
-def Get_Info(self):
-    parsed_path = urlparse.urlparse(self.path)
-    message_parts = [
-            'CLIENT VALUES:',
-            'client_address=%s (%s)' % (self.client_address,
-                                        self.address_string()),
-            'command=%s' % self.command,
-            'path=%s' % self.path,
-            'real path=%s' % parsed_path.path,
-            'query=%s' % parsed_path.query,
-            'request_version=%s' % self.request_version,
-            '',
-            'SERVER VALUES:',
-            'server_version=%s' % self.server_version,
-            'sys_version=%s' % self.sys_version,
-            'protocol_version=%s' % self.protocol_version,
-            '',
-            'HEADERS RECEIVED:',
-            ]
-    for name, value in sorted(self.headers.items()):
-        message_parts.append('%s=%s' % (name, value.rstrip()))
-    message_parts.append('')
-    message = '\r\n'.join(message_parts)
-    return message
 
 if __name__ == '__main__':
     HandlerClass = SimpleHTTPRequestHandler
@@ -135,10 +108,8 @@ if __name__ == '__main__':
     server_address = ('127.0.0.1', port)
     
     HandlerClass.protocol_version = Protocol
-#    httpd = ServerClass(server_address, HandlerClass)
     httpd = ServerClass(server_address, GetHandler)
     sa = httpd.socket.getsockname()
-    servername="localhost"
     print "Serving HTTP on", sa[0], "port", sa[1], "..."
     url="http://localhost:"+str(port)
     webbrowser.open(url, 0, True)
