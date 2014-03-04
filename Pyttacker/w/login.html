@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>This is the destination page</title>
+<style type="text/css">
+body {
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 12px;
+	background-color: #000;
+	font-weight: bold;
+	color: #3F0;
+	text-align: center;
+}
+
+</style>
+<script type="application/javascript">
+function login(){
+	alert("Thank you! I got your credentials: User:"+document.getElementById('user').value+" Password:"+document.getElementById('password').value);
+}
+</script>
+</head>
+
+<body>
+<p>For security reasons we need to confirm your credentials:
+<br />
+<table>
+	<tr><td>User:</td><td><input id='user' type="text" size="20"/></td></tr>
+    <tr><td>Password:</td><td><input id='password' type="password" size="20"/></td></tr>
+</table>
+<input type="button" value="Confirm" onclick="login()"/>
+</p>
+</body>
+</html>

