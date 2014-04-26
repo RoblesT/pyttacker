@@ -340,7 +340,7 @@ function send(){
 	if( plugin != '' && poc != '' && action == 'pyttacker'){
 		send_to_pyttacker();
 	}else{
-		send_request(document.getElementById('idurl').value,document.getElementById('iddata').value);
+		send_request(document.getElementById('idurl').value, document.getElementById('iddata').value);
 	}
 }
 function plugin_change(){

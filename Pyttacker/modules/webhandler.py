@@ -6,6 +6,9 @@ from os import curdir, sep
 import plugins
 
 current_target=''
+xml_plugins =[]
+server_port=8000
+server_name='localhost'
 
 class GetHandler(BaseHTTPRequestHandler):
     
@@ -171,27 +174,29 @@ def escape(source):
     return cgi.escape(source,True).encode('ascii', 'xmlcharrefreplace')
 
 def server_process(source):
+    global server_name, server_port
     content = source
     #Server Vars
-    port=8000
-    server_name='localhost'
     plugin_list=plugins.get_pluginlist()
     html_pluginlist=plugins.get_html_pluginlist()
     
     content = content.replace("<SERVER_NAME>",server_name)
-    content = content.replace("<SERVER_PORT>",str(port))
-    content = content.replace("%baseurl%",'http://'+server_name+':'+str(port))
+    content = content.replace("<SERVER_PORT>",str(server_port))
+    content = content.replace("%baseurl%",'http://'+server_name+':'+str(server_port))
     content = content.replace("%plugin_list%",plugin_list)
     content = content.replace("%html_pluginlist%",html_pluginlist)
     content = content.replace("%target%",current_target)
     return content
 
 def start(server,port,plugins_path):
+    global xml_plugins, server_port, server_name
     HandlerClass = SimpleHTTPRequestHandler
     ServerClass  = BaseHTTPServer.HTTPServer
     Protocol     = "HTTP/1.0"
     xml_plugins = plugins.import_plugins(plugins_path)
-
+    server_port=port
+    server_name=server
+    
     server_address = (server, port)
     
     HandlerClass.protocol_version = Protocol
@@ -203,6 +208,5 @@ def start(server,port,plugins_path):
     httpd.serve_forever()
 
 def __init__():
-    xml_plugins =[]
     global current_target
     current_target=''

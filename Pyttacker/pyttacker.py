@@ -1,12 +1,12 @@
 #!/usr/bin/python
-import webbrowser
-from modules import *
+import webbrowser, sys, os
+from modules import webhandler
 
 def get_port():
     if sys.argv[1:]:
         port = int(sys.argv[1])
     else:
-        port = 8000
+        port = 8080
     return port
 
 if __name__ == '__main__':
@@ -33,8 +33,21 @@ if __name__ == '__main__':
     port = get_port()
     
     #Open System default Browser
-    url="http://localhost:"+str(port)
+    url="http://127.0.0.1:"+str(port)
     webbrowser.open(url, 0, True)
     
     #Start Pyttacker Server
-    webhandler.start('127.0.0.1', port,plugins_path)
+    while True:
+        try:
+            wh = webhandler
+            wh.start('127.0.0.1', port,plugins_path)
+        except Exception, e:
+            print 'Something wrong happened, make sure the port is not used by other service: ', str(e)
+            print 'Select a new port number (1000 - 65535) or type "q" to exit:'
+            msg = raw_input('Port:')
+            if msg == 'q':
+                print "Ok bye"
+                exit()
+            else:
+                port = int(msg)
+                wh = None
