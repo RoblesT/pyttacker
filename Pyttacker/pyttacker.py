@@ -6,7 +6,7 @@ def get_port():
     if sys.argv[1:]:
         port = int(sys.argv[1])
     else:
-        port = 8080
+        port = 9090
     return port
 
 if __name__ == '__main__':
