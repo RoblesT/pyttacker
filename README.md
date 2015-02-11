@@ -47,9 +47,9 @@ python pyttacker.py
 ```
 Pyttacker Server it's a simple web server that will be used for creating the PoCs so there are cases when the default TCP port  is locked by another tool your using as part of your testing, in that case you can specify the port number:
 ```
-python pyttacker.py
+python pyttacker.py 9090
 ```
-No worries if you just double clicked the tool and the port is already locked since the tool will ask for another port until the process is started or aborted.
+No worries if you just started the tool and the port is already used by another application since the tool will ask for another port until the process is started or aborted.
 
 _**Opening the interface**_
 
