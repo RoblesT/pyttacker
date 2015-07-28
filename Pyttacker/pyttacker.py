@@ -3,10 +3,12 @@ import webbrowser, sys, os
 from modules import webhandler
 
 def get_port():
-    if sys.argv[1:]:
-        port = int(sys.argv[1])
-    else:
+    try:
         port = 9090
+        if sys.argv[1:]:
+            port = int(sys.argv[1])
+    except:
+        print "Wrong Port provided, only Integer values are accepted"
     return port
 
 if __name__ == '__main__':
@@ -18,8 +20,8 @@ if __name__ == '__main__':
     print ' /____/ /              /  /    |  |  |  | /  /  \  \_\  \____/\_|  |\  \  |  |____  \  \    '
     print ' \____\/              /__/     |__|  |__|/__/    \_________________| \__\ |_______\  \__\   '
     print ''
-    print ' Python Attacker and PoC Creator '
-    print ' '
+    print ' OWASP Python Attacker and PoC Creator '
+    print '                                                                      mario.robles@owasp.org'
     print '*******************************************************************************************'
     print '* Initial process                                                                         *'
     print '*******************************************************************************************'
