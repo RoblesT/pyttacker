@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Pyttacker, Python Attacker and PoC Creator</title>
+<link rel="stylesheet" type="text/css" href="css/main.css">
+<script type="text/javascript" src="js/main.js"></script>
+</head>
+<body onLoad="start();">
+<h1>Pyttacker</h1>
+<div class="tools-area">
+	<form id='attack_form' action="notdefinedyet" method="post" target="attack_frame">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	  <tr valign="top">
+	    <td width="30">
+	      <select name="cmbmethod" size="1" id="cmbmethod" onChange="method_change();">
+	        <option value="POST">POST</option>
+	        <option value="GET" selected>GET</option>
+	      </select><br/>
+	      <input type="checkbox" name="idsendcookies" id="idsendcookies" onChange="cookies_change();">
+	      <label for="idsendcookies">Cookies</label>
+	      </td>
+	    <td><textarea rows="2" id="idurl">http://</textarea></td>
+	  </tr>
+	  <tr id='postdata_row' style="display:none; visibility:hidden;">
+	    <td>POST data:</td>
+	    <td><textarea cols="100" rows="5" id="iddata" name="postdata" style="width:100%"></textarea></td>
+	  </tr>
+	  <tr id='cookies_row' style="display:none; visibility:hidden;">
+	    <td>Cookies:</td>
+	    <td><textarea cols="100" rows="5" id="idcookies" name="idcookies" style="width:100%"></textarea></td>
+	  </tr>
+	  <tr>
+	    <td>PoC for:</td>
+	    <td><select name="cmb_plugin" size="1" id="cmb_plugin" onChange="plugin_change();">
+	      <option value='' selected>Select a plugin</option>
+	      %html_pluginlist%
+	    </select>
+	    <select name="cmb_poc" size="1" id="cmb_poc" onChange="poc_change();"></select>
+	      <input id='cmd_send' type="button" value="Send" onClick="send()"/></td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;</td>
+	    <td>
+	    	<div id="info" class='info-box'>
+	        	<b><span id='plugin_name'></span></b> - <span id='plugin_author'></span><br/>
+	        	<span id='plugin_description'></span><br/>
+	           <b><span id='poc_name'></span></b><br/>
+	            <span id='poc_payload'></span>
+	        </div>
+	     </td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;</td>
+	    <td><p>
+	        <input type="checkbox" name="idtopopup" id="idtopopup">
+	        <label for="idtopopup">Display results in a Pop up Window</label>
+	      </p></td>
+	  </tr>
+	</table>
+	</form>
+</div>
+<div id="div_poc"></div>
+
+<div class="status-box"><span id="results"></span> | <span id='status'></span> | Pyttacker Server, OWASP Costa Rica</div>
+</body>
+</html>

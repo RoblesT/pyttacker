@@ -86,12 +86,12 @@ function load_plugin(pid){
 					}
 				}
 				if (poc == 'true'){
-					contenedor.innerHTML = "<span style='color:green;'>Process completed</span>";
+					contenedor.innerHTML = "<span class='messages'>Process completed</span>";
 					poc_change();
 				}else if (poc == 'error'){
 					contenedor.innerHTML = "<span style='color:red;'>An internal error happened, please check Pyttacker output log in the console</span>";
 				}else if (poc == 'false'){
-					contenedor.innerHTML = "<span style='color:green;'>"+message+"</span>";
+					contenedor.innerHTML = "<span class='messages'>"+message+"</span>";
 				}
 			}
 		}
@@ -136,7 +136,7 @@ function service_status(){
 			if (ajax.readyState==4) {
 				response = ajax.responseText;
 				if (response == 'yes'){
-					contenedor.innerHTML = "<span style='color:green;'>Server Online</span>";
+					contenedor.innerHTML = "<span class='messages'>Server Online</span>";
 					document.getElementById("cmd_send").disabled = false;
 					pyttacker = true;
 				}else{

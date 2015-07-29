@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import webbrowser, sys, os
+import modules, webbrowser, sys, os, threading, socket, getpass
 from modules import webhandler
 
 def get_port():
@@ -10,6 +10,26 @@ def get_port():
     except:
         print "Wrong Port provided, only Integer values are accepted"
     return port
+def start_webserver():
+    #Start Pyttacker Server
+    global password,myip, port, plugins_path
+    try:
+        
+        if myip != '':
+            modules.webhandler.start(myip, port,plugins_path)
+    except Exception, e:
+        print 'Errors while starting the Web Server: ', str(e)
+
+def stop_server():
+    if web_server.isAlive():
+        web_server._Thread__stop()
+
+def get_ip():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8",80))
+    myip = s.getsockname()[0]
+    s.close()
+    return myip
 
 if __name__ == '__main__':
     print '      __________'
@@ -33,16 +53,31 @@ if __name__ == '__main__':
     
     #Arg handling
     port = get_port()
+    myip = get_ip()
     
     #Open System default Browser
-    url="http://127.0.0.1:"+str(port)
+    url="http://"+myip+":"+str(port)
     webbrowser.open(url, 0, True)
+    process_started = False
+
     
     #Start Pyttacker Server
     while True:
         try:
-            wh = webhandler
-            wh.start('127.0.0.1', port,plugins_path)
+            if not process_started:
+                web_server = threading.Thread(target=start_webserver)  
+                web_server.start()
+                process_started = True
+            print 'URL: '+url+':'+port+'/'
+            print ''
+            print 'Use this interface for management commands'
+            print 'Type: q = Shutdown the server and close Pyttacker'
+            msg = raw_input('Command:')
+            if msg == 'q':
+                stop_server()
+                print 'Ok, Bye, thank you for using Pyttacker!!'
+                exit()
+                
         except Exception, e:
             print 'Something wrong happened, make sure the port is not used by other service: ', str(e)
             print 'Select a new port number (1000 - 65535) or type "q" to exit:'
