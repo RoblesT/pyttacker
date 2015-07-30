@@ -58,7 +58,8 @@ h1{
     display: block;
 }
 .command-box{
-    display: block;
+    display: none;
+    visibility: hidden;
     color: black;
     background-color: white;
     position: absolute;
