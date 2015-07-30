@@ -12,27 +12,32 @@ current_target=''
 xml_plugins =[]
 server_port=8000
 server_name='localhost'
+httpd = None
 
 class GetHandler(BaseHTTPRequestHandler):
-    
+
     def __ext_filter(self, filename):
-        ext = filename[filename.rfind('.'):].lower()
-        if (ext == ".html"):
-            return 'text/html'
-        elif (ext == ".css"):
-            return 'text/css'
-        elif (ext == ".js"):
-            return 'application/x-javascript'
-        elif (ext == ".jpg"):
-            return 'image/jpeg'
-        elif (ext == ".gif"):
-            return 'image/gif'
-        elif (ext == ".png"):
-            return 'image/png'
+        if not '?' in filename:
+            ext = filename[filename.rfind('.'):].lower()
+            if (ext == ".html"):
+                return 'text/html'
+            elif (ext == ".css"):
+                return 'text/css'
+            elif (ext == ".js"):
+                return 'application/x-javascript'
+            elif (ext == ".jpg"):
+                return 'image/jpeg'
+            elif (ext == ".gif"):
+                return 'image/gif'
+            elif (ext == ".png"):
+                return 'image/png'
+            else:
+                return ''
         else:
             return ''
-    def do_GET(self):
         
+    def do_GET(self):
+        global httpd
         try:
             content = self.__ext_filter(self.path)
             filepath = self.parse_path(self.path.lower())
@@ -63,10 +68,16 @@ class GetHandler(BaseHTTPRequestHandler):
                 self.wfile.write(source)
                 f.close()
             else:
-                self.send_response(404)
-                self.end_headers()
-                print 'Error:',404,"File type not supported:",self.path
-                self.wfile.write('<h1>Pyttacker Server</h1>Error:404 File type not supported:'+cgi.escape(self.path))
+                web_command = filepath.replace('/w/','')
+                #Work in progress here for command processing, for now just Quit call
+                if web_command == 'cmd=quit':
+                    print '[!] Shutting down Web server'
+                    httpd.server_close()
+                else:
+                    self.send_response(404)
+                    self.end_headers()
+                    print 'Error:',404,"File type not supported:",self.path
+                    self.wfile.write('<h1>Pyttacker Server</h1>Error:404 File type not supported:'+cgi.escape(self.path))
             return
         except IOError:
             self.send_response(404)
@@ -173,6 +184,9 @@ class GetHandler(BaseHTTPRequestHandler):
         if finalpath =='':
             finalpath = '/w'+fpath
         return finalpath
+    def stop(self):
+        self._stop.set()
+        
 def escape(source):
     return cgi.escape(source,True).encode('ascii', 'xmlcharrefreplace')
 
@@ -192,7 +206,7 @@ def server_process(source):
     return content
 
 def start(server,port,plugins_path):
-    global xml_plugins, server_port, server_name
+    global xml_plugins, server_port, server_name, httpd
     HandlerClass = SimpleHTTPRequestHandler
     ServerClass  = BaseHTTPServer.HTTPServer
     Protocol     = "HTTP/1.0"
@@ -203,12 +217,13 @@ def start(server,port,plugins_path):
     server_address = (server, port)
     
     HandlerClass.protocol_version = Protocol
-    httpd = ServerClass(server_address, GetHandler)
+    httpd = ThreadedServer(server_address, GetHandler)
     info = httpd.socket.getsockname()
     print "******************************************************************************"
     print "Pyttacker Server started on", info[0], "port", info[1]
     print "******************************************************************************"
     httpd.serve_forever()
+    exit()
 
 def __init__():
     global current_target

@@ -8,6 +8,7 @@
 </head>
 <body onLoad="start();">
 <h1>Pyttacker</h1>
+<div class="close-button" onclick="close_pyttacker()"><span>Close</span></div>
 <div class="tools-area">
 	<form id='attack_form' action="notdefinedyet" method="post" target="attack_frame">
 	<table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -32,11 +33,11 @@
 	  </tr>
 	  <tr>
 	    <td>PoC for:</td>
-	    <td><select name="cmb_plugin" size="1" id="cmb_plugin" onChange="plugin_change();">
+	    <td><select name="cmb_plugin" size="1" id="cmb_plugin" onChange="plugin_change();" class="combo-plugins">
 	      <option value='' selected>Select a plugin</option>
 	      %html_pluginlist%
 	    </select>
-	    <select name="cmb_poc" size="1" id="cmb_poc" onChange="poc_change();"></select>
+	    <select name="cmb_poc" size="1" id="cmb_poc" onChange="poc_change();" class="combo-plugins"></select>
 	      <input id='cmd_send' type="button" value="Send" onClick="send()"/></td>
 	  </tr>
 	  <tr>
@@ -61,7 +62,7 @@
 	</form>
 </div>
 <div id="div_poc"></div>
-
+<div class="command-box"><span class="command-path">pyttacker#</span><input type="text" class="commandline"></input><span class="button-send">Send</span></div>
 <div class="status-box"><span id="results"></span> | <span id='status'></span> | Pyttacker Server, OWASP Costa Rica</div>
 </body>
 </html>

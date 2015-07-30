@@ -149,6 +149,16 @@ function service_status(){
 		ajax.send(postdata)
 	}
 }
+
+function close_pyttacker(){
+	ajax=nuevoAjax();
+	ajax.open("GET", "/cmd=quit",true);
+	ajax.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	ajax.onreadystatechange=function() {
+		window.close();
+	}
+	ajax.send()
+}
 function clear_poc()
 {
     var i;
