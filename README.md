@@ -1,4 +1,4 @@
-#OWASP Pyttacker Project
+# OWASP Pyttacker Project
 
 _**Proof of Concept (PoC) creator for Pentesters**_
 
@@ -16,10 +16,10 @@ Some features:
  * Portable
  * Easy Plug-ins Implementation
 
-###Prerequisites
+### Prerequisites
  * Python 2.6 or 2.7
 
-###Installation
+### Installation
 
 Linux:
 ```
@@ -30,7 +30,7 @@ Windows:
 * Download the ZIP file [Here](https://github.com/RoblesT/pyttacker/archive/master.zip)
 * Unzip to the desired folder
 
-###Quick Start
+### Quick Start
 You just need two things (Excluding the Prerequisites):
 
 * Start Pyttacker Server
